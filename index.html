@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Feedback Ulasan</title>
+</head>
+<body>
+    <h1>Kirim Ulasan</h1>
+    <form id="feedbackForm">
+        <input type="text" id="name" placeholder="Nama" required>
+        <textarea id="message" placeholder="Masukkan ulasan..." required></textarea>
+        <button type="submit">Kirim</button>
+    </form>
+
+    <h2>Ulasan Pengguna</h2>
+    <ul id="feedbackList"></ul>
+
+    <script>
+        const backendURL = "https://your-vercel-project.vercel.app/api/feedback";
+
+        document.getElementById("feedbackForm").addEventListener("submit", async (e) => {
+            e.preventDefault();
+            const name = document.getElementById("name").value;
+            const message = document.getElementById("message").value;
+
+            const response = await fetch(backendURL, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ name, message })
+            });
+
+            if (response.ok) {
+                loadFeedback();
+            }
+        });
+
+        async function loadFeedback() {
+            const response = await fetch(backendURL);
+            const feedbacks = await response.json();
+            const feedbackList = document.getElementById("feedbackList");
+            feedbackList.innerHTML = "";
+            feedbacks.forEach(fb => {
+                const li = document.createElement("li");
+                li.textContent = `${fb.name}: ${fb.message}`;
+                feedbackList.appendChild(li);
+            });
+        }
+
+        loadFeedback();
+    </script>
+</body>
+</html>
