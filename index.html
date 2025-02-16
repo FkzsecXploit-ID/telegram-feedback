@@ -17,22 +17,26 @@
     <ul id="feedbackList"></ul>
 
     <script>
-    document.getElementById("feedbackForm").addEventListener("submit", async function (event) {
-        event.preventDefault();
+        const backendURL = "https://fkzproject-backend.vercel.app/api/feedback";
 
-        const name = document.getElementById("name").value;
-        const message = document.getElementById("message").value;
+        document.getElementById("feedbackForm").addEventListener("submit", async (e) => {
+            e.preventDefault();
+            const name = document.getElementById("name").value;
+            const message = document.getElementById("message").value;
 
-        const response = await fetch("https://fkzproject-backend.vercel.app/api/feedback", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ name, message }),
+            const response = await fetch(backendURL, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ name, message })
+            });
+
+            if (response.ok) {
+                alert("Ulasan berhasil dikirim!");
+                document.getElementById("feedbackForm").reset();
+            } else {
+                alert("Gagal mengirim ulasan!");
+            }
         });
-
-        const result = await response.json();
-        alert(result.message);
-    });
-</script>
-
+    </script>
 </body>
 </html>
