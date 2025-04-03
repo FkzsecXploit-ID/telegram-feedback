@@ -9,36 +9,30 @@
     <h1>Kirim Ulasan</h1>
     <form id="feedbackForm">
         <input type="text" id="name" placeholder="Nama" required>
-        <textarea id="message" placeholder="Masukkan ulasan..." required></textarea>
+        <textarea id="message" placeholder="Masukkan ulasan bree..." required></textarea>
         <button type="submit">Kirim</button>
     </form>
-
     <h2>Ulasan Pengguna</h2>
     <ul id="feedbackList"></ul>
-
     <script>
         const backendURL = "https://fkzproject-backend.vercel.app/api/feedback";
-
         document.getElementById("feedbackForm").addEventListener("submit", async (e) => {
             e.preventDefault();
             const name = document.getElementById("name").value;
             const message = document.getElementById("message").value;
-
             const response = await fetch(backendURL, {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({ name, message })
             });
-
             if (response.ok) {
-                alert("Ulasan berhasil dikirim!");
+                alert("thanks! sukses kirim ulasan");
                 document.getElementById("feedbackForm").reset();
-                loadFeedback(); // Reload ulasan setelah kirim
+                loadFeedback(); 
             } else {
-                alert("Gagal mengirim ulasan!");
+                alert("gagal ngirim ulasan!");
             }
         });
-
         async function loadFeedback() {
             const response = await fetch(backendURL);
             if (response.ok) {
@@ -52,8 +46,7 @@
                 });
             }
         }
-
-        loadFeedback(); // Muat ulasan saat halaman dibuka
+        loadFeedback(); 
     </script>
 </body>
 </html>
